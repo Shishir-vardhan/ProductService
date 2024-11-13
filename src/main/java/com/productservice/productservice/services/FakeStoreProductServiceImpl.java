@@ -3,7 +3,6 @@ package com.productservice.productservice.services;
 import com.productservice.productservice.dto.FakeStoreProductDto;
 import com.productservice.productservice.dto.GenericProductDto;
 import org.springframework.boot.web.client.RestTemplateBuilder;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -15,8 +14,9 @@ import java.util.List;
 public class FakeStoreProductServiceImpl implements ProductService{
 
     private RestTemplateBuilder restTemplateBuilder;
-    private String getProductUrl ="https://fakestoreapi.com/products/1";
-    private String getAllProductUrl =  "https://fakestoreapi.com/products";
+    private String sepecificProductUrl ="https://fakestoreapi.com/products/{id}";
+    private String genericProductUrl =  "https://fakestoreapi.com/products";
+    private String createProductUrl =  "https://fakestoreapi.com/products";
 
     FakeStoreProductServiceImpl(RestTemplateBuilder restTemplateBuilder) {
         this.restTemplateBuilder = restTemplateBuilder;
@@ -39,7 +39,7 @@ public class FakeStoreProductServiceImpl implements ProductService{
         //Below code should have fakeStore Api call/ Integrate the fakeStore Api.
 
         RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.getForEntity(getProductUrl, FakeStoreProductDto.class, id);
+        ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.getForEntity(sepecificProductUrl, FakeStoreProductDto.class, id);
 
         //Adding extra layer in case there is a change in the attribute of an api
 
@@ -50,7 +50,7 @@ public class FakeStoreProductServiceImpl implements ProductService{
     public List<GenericProductDto> getAllProducts() {
 
         RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<FakeStoreProductDto[]> responseEntity = restTemplate.getForEntity(getAllProductUrl, FakeStoreProductDto[].class);
+        ResponseEntity<FakeStoreProductDto[]> responseEntity = restTemplate.getForEntity(genericProductUrl, FakeStoreProductDto[].class);
 
         List<GenericProductDto> genericProductDtos = new ArrayList<>();
         List<FakeStoreProductDto> fakeStoreProductDtos = List.of(responseEntity.getBody());
@@ -72,8 +72,13 @@ public class FakeStoreProductServiceImpl implements ProductService{
 //
 //    }
 //
-//    @Override
-//    public void createProduct() {
-//
-//    }
+    @Override
+        public GenericProductDto createProduct(GenericProductDto genericProductDto) {
+
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.postForEntity(createProductUrl,genericProductDto,FakeStoreProductDto.class);
+
+        return convertToGenericProductDto(responseEntity.getBody());
+
+    }
 }
