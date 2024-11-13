@@ -39,7 +39,7 @@ public class FakeStoreProductServiceImpl implements ProductService{
         //Below code should have fakeStore Api call/ Integrate the fakeStore Api.
 
         RestTemplate restTemplate = restTemplateBuilder.build();
-        ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.getForEntity(getProductUrl, FakeStoreProductDto.class);
+        ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.getForEntity(getProductUrl, FakeStoreProductDto.class, id);
 
         //Adding extra layer in case there is a change in the attribute of an api
 
