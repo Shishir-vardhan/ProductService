@@ -3,8 +3,12 @@ package com.productservice.productservice.services;
 import com.productservice.productservice.dto.FakeStoreProductDto;
 import com.productservice.productservice.dto.GenericProductDto;
 import org.springframework.boot.web.client.RestTemplateBuilder;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RequestCallback;
+import org.springframework.web.client.ResponseExtractor;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.ArrayList;
@@ -61,17 +65,7 @@ public class FakeStoreProductServiceImpl implements ProductService{
 
         return genericProductDtos;
     }
-//
-//    @Override
-//    public void deleteProductById(Long id) {
-//
-//    }
-//
-//    @Override
-//    public void updateProduct(Long id) {
-//
-//    }
-//
+
     @Override
         public GenericProductDto createProduct(GenericProductDto genericProductDto) {
 
@@ -79,6 +73,32 @@ public class FakeStoreProductServiceImpl implements ProductService{
         ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.postForEntity(createProductUrl,genericProductDto,FakeStoreProductDto.class);
 
         return convertToGenericProductDto(responseEntity.getBody());
-
     }
+
+    @Override
+    public GenericProductDto deleteProductById(Long id) {
+        // Below code work if we have to delete the data only.
+//        RestTemplate restTemplate = restTemplateBuilder.build();
+//        restTemplate.delete(sepecificProductUrl, id);
+
+        // This below code will delete the data and give the data it deleted.
+        RestTemplate restTemplate = restTemplateBuilder.build();
+        RequestCallback requestCallback = restTemplate.acceptHeaderRequestCallback(FakeStoreProductDto.class);
+        ResponseExtractor<ResponseEntity<FakeStoreProductDto>> responseExtractor = restTemplate.responseEntityExtractor(FakeStoreProductDto.class);
+        ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.execute(sepecificProductUrl, HttpMethod.DELETE, requestCallback, responseExtractor, id);
+
+        return convertToGenericProductDto(responseEntity.getBody());
+    }
+//
+//    @Override
+//    public GenericProductDto updateProductById(Long id) {
+//
+//        RestTemplate restTemplate = restTemplateBuilder.build();
+//        RequestCallback requestCallback = restTemplate.acceptHeaderRequestCallback(FakeStoreProductDto.class);
+//        ResponseExtractor<ResponseEntity<FakeStoreProductDto>> responseExtractor = restTemplate.responseEntityExtractor(FakeStoreProductDto.class);
+//        ResponseEntity<FakeStoreProductDto> responseEntity = restTemplate.execute(sepecificProductUrl, HttpMethod.POST, requestCallback, responseExtractor, id);
+//
+//        return convertToGenericProductDto(responseEntity.getBody());
+//    }
+
 }

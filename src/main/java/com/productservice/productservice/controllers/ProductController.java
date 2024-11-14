@@ -32,26 +32,27 @@ public class ProductController {
     public List<GenericProductDto> getAllProducts() {
         return productService.getAllProducts();
     }
-//
-//    @GetMapping("/{id}")
-//    public void deleteProductById(@PathVariable("id") Long id) {
-//
-//    }
-//
+
     @PostMapping
     public GenericProductDto createProduct(@RequestBody GenericProductDto genericProductDto) {
         return productService.createProduct(genericProductDto);
     }
+
+    @DeleteMapping("/{id}")
+    public GenericProductDto deleteProductById(@PathVariable("id") Long id) {
+        return productService.deleteProductById(id);
+    }
+
 //
 //    @GetMapping("/{id}")
-//    public void updateProductById(@PathVariable("id") Long id) {
-//
+//    public GenericProductDto updateProductById(@PathVariable("id") Long id) {
+//        return productService.updateProductById(id);
 //    }
 
     /*3 types of injection:-
 
      1. Constructor injection
-     2.
+     2. Field injection
      3. Setter injection
 
 
