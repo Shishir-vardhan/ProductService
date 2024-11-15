@@ -1,10 +1,14 @@
 package com.productservice.productservice.controllers;
 
+import com.productservice.productservice.dto.ExceptionDto;
 import com.productservice.productservice.dto.FakeStoreProductDto;
 import com.productservice.productservice.dto.GenericProductDto;
+import com.productservice.productservice.exception.ProductNotFoundException;
 import com.productservice.productservice.services.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -22,7 +26,7 @@ public class ProductController {
     }
 
     @GetMapping("/{id}")
-    public GenericProductDto getProductById(@PathVariable("id") Long id) {
+    public GenericProductDto getProductById(@PathVariable("id") Long id) throws Exception {
         //Below code used to direct it to service.To use it we need an object of the service and we can implement using dependency injection
         // Call the FakeStoreProductService getProductById() method.
         return productService.getProductById(id);
@@ -43,11 +47,30 @@ public class ProductController {
         return productService.deleteProductById(id);
     }
 
-//
-//    @GetMapping("/{id}")
-//    public GenericProductDto updateProductById(@PathVariable("id") Long id) {
-//        return productService.updateProductById(id);
+
+//    @PatchMapping("/{id}")
+//    public GenericProductDto updateProductById(@RequestBody GenericProductDto genericProductDto, @PathVariable("id") Long id) {
+//        return productService.updateProductById(genericProductDto,id);
 //    }
+
+//    @ExceptionHandler(ProductNotFoundException.class)
+//    public ExceptionDto handleProductNotFoundException(ProductNotFoundException productNotFoundException) {
+//
+//        ExceptionDto exceptionDto = new ExceptionDto();
+//        exceptionDto.setMessage(productNotFoundException.getMessage());
+//        exceptionDto.setHttpStatus(HttpStatus.NOT_FOUND);
+//        return exceptionDto;
+//    }
+
+    // Another Way to create ExceptionHandler common for all the controller has done in ProductControllerAdvices using @ControllerAdvice.
+//    @ExceptionHandler(ProductNotFoundException.class)
+//    public void handleProductNotFoundException()
+//    {
+//        System.out.println(HttpStatus.NOT_FOUND);
+//    }
+
+
+
 
     /*3 types of injection:-
 

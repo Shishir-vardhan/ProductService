@@ -6,7 +6,7 @@ import java.util.List;
 
 public interface ProductService {
 
-    GenericProductDto getProductById(Long id);
+    GenericProductDto getProductById(Long id) throws Exception;
 
     List<GenericProductDto> getAllProducts();
 
@@ -14,6 +14,8 @@ public interface ProductService {
 
     GenericProductDto deleteProductById(Long id);
 
-//    GenericProductDto updateProductById(Long id);
+//    GenericProductDto updateProductById(GenericProductDto genericProductDto, Long id);
+
+
 }
 
