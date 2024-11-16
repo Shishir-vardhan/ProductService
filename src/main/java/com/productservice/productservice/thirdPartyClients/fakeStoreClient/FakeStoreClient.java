@@ -4,6 +4,7 @@ import com.productservice.productservice.dto.FakeStoreProductDto;
 import com.productservice.productservice.dto.GenericProductDto;
 import com.productservice.productservice.exception.ProductNotFoundException;
 import com.productservice.productservice.services.FakeStoreProductServiceImpl;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -19,11 +20,22 @@ import java.util.List;
 public class FakeStoreClient {
 
     private RestTemplateBuilder restTemplateBuilder;
-    private String specificProductUrl ="https://fakestoreapi.com/products/{id}";
-    private String genericProductUrl =  "https://fakestoreapi.com/products";
 
-    FakeStoreClient(RestTemplateBuilder restTemplateBuilder) {
+//     No need to use constant value. Call it from application.properties
+//    private String specificProductUrl ="https://fakestoreapi.com/products/{id}";
+//    private String genericProductUrl =  "https://fakestoreapi.com/products";
+
+    private String fakeStoreUrl;
+    private String pathForProducts;
+    private String specificProductUrl;
+    private String genericProductUrl;
+
+    FakeStoreClient(RestTemplateBuilder restTemplateBuilder,
+                    @Value("${fakestore.api.url}") String fakeStoreUrl,
+                    @Value("${fakestore.api.path.products}") String pathForProducts) {
         this.restTemplateBuilder = restTemplateBuilder;
+        this.specificProductUrl = fakeStoreUrl+pathForProducts+"/{id}";
+        this.genericProductUrl = fakeStoreUrl+pathForProducts;
     }
 
     // GenericProductDto is an internal class to show the data as we want.
