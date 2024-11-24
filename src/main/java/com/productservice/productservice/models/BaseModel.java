@@ -11,12 +11,13 @@ import java.util.UUID;
 @Getter
 @Setter
 @MappedSuperclass
-public class BaseModel {
+public class
+BaseModel {
 
     @Id
     //creating a custom uuid with strategy uuid2. Other ways are there to create an uuid.
-    @GeneratedValue(generator = "generateUUID")
-    @GenericGenerator(name = "generateUUID", strategy = "uuid2")
+    @GeneratedValue(generator = "generator_name")
+    @GenericGenerator(name = "generator_name", strategy = "uuid2")
     @Column(name = "id", columnDefinition = "binary(16)", nullable = false, updatable = false)
     private UUID id;
 }
