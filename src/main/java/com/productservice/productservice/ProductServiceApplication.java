@@ -14,6 +14,7 @@ import com.productservice.productservice.models.Product;
 import com.productservice.productservice.repositories.CategoryRepository;
 import com.productservice.productservice.repositories.PriceRepository;
 import com.productservice.productservice.repositories.ProductRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
@@ -24,6 +25,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 @SpringBootApplication
+@Transactional
 public class ProductServiceApplication implements CommandLineRunner {
 
     private final CategoryRepository categoryRepository;
@@ -173,23 +175,39 @@ public class ProductServiceApplication implements CommandLineRunner {
         /*
         Seeding price, category and Product into db. Implementing @OneToOne in b/w price -> Product
          */
-        Price price = new Price();
-        price.setCurrency("INR");
-        price.setValue(100000);
-//        Price price1 = priceRepository.save(price);
+//        Price price = new Price();
+//        price.setCurrency("INR");
+//        price.setValue(100000);
 
-        Category category = new Category();
-        category.setName("Samsung Devices");
-        Category category1 = categoryRepository.save(category);
+//        Category category = new Category();
+//        category.setName("Samsung Devices");
+//        Category category1 = categoryRepository.save(category);
 
-        Product product = new Product();
-        product.setTitle("Samsung S25 ultra");
-        product.setDescription("S25 ultra is the best android phone in the market with best specs");
-        product.setCategory(category1);
-        product.setPrice(price);
-        productRepository.save(product);
+//        Product product = new Product();
+//        product.setTitle("Samsung S25 ultra");
+//        product.setDescription("S25 ultra is the best android phone in the market with best specs");
+//        product.setCategory(category);
+//        product.setPrice(price);
+//        productRepository.save(product);
 
 //        productRepository.deleteById(UUID.fromString("6d0033a7-44b3-4482-8c41-27db8f621792"));
+
+        /*
+        Eager vs Lazy Fetch type
+        1. Check in Category model, List<Product> should be Eager and call the below getProduct() method. check query.
+        2. Change product to Lazy fetch type and comment getProducts() and for loop.Run the application. o/p - 1 query
+        3. Uncomment the getProducts() and for loop -> o/p single query + lazy initialization error
+        4. If you @Transactional before start of this class. Make it as a single transaction like in db.
+         In console - get list of product but with 2 queries
+         */
+
+        Optional<Category> optionalCategory =  categoryRepository.findById(UUID.fromString("82737706-0a8e-4dd4-8bd2-186af7531c08"));
+        Category category = optionalCategory.get();
+
+        List<Product> products = category.getProducts();
+        for(Product product : products) {
+            System.out.println(product.getTitle());
+        }
 
     }
 }
