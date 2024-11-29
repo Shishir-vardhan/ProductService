@@ -20,6 +20,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
@@ -200,14 +201,48 @@ public class ProductServiceApplication implements CommandLineRunner {
         4. If you @Transactional before start of this class. Make it as a single transaction like in db.
          In console - get list of product but with 2 queries
          */
+//        Optional<Category> optionalCategory =  categoryRepository.findById(UUID.fromString("82737706-0a8e-4dd4-8bd2-186af7531c08"));
+//        Category category = optionalCategory.get();
+//
+//        List<Product> products = category.getProducts();
+//        for(Product product : products) {
+//            System.out.println(product.getTitle());
+//        }
 
-        Optional<Category> optionalCategory =  categoryRepository.findById(UUID.fromString("82737706-0a8e-4dd4-8bd2-186af7531c08"));
-        Category category = optionalCategory.get();
 
-        List<Product> products = category.getProducts();
-        for(Product product : products) {
-            System.out.println(product.getTitle());
-        }
+                /*
+        Seeding few more data into db to implement various jpa queries
+         */
+//        Optional<Category> category = categoryRepository.findById(UUID.fromString("82737706-0a8e-4dd4-8bd2-186af7531c08"));
+//        Category category1 = category.get();
+//
+//        Price price = new Price();
+//        price.setCurrency("INR");
+//        price.setValue(25000);
+//
+//        Product product1 = new Product();
+//        product1.setTitle("Samsung Watch");
+//        product1.setDescription("Best watch in the market");
+//        product1.setCategory(category1);
+//        product1.setPrice(price);
+//        productRepository.save(product1);
+
+        /*
+        Implementing JPA queries.
+        Create a jpa queries in Repository class and fetching over here.
+         */
+
+//        List<Product> products = productRepository.findAll();
+//        List<Product> products = productRepository.findAllByTitle("Samsung S25 ultra");
+//        List<Product> products = productRepository.findAllByTitleAndDescription("Samsung S25 ultra","S25 ultra is the best android phone in the market with best specs");
+//        List<Product> products = productRepository.findAllByCategoryName("Samsung Devices");
+        List<Product> products = productRepository.findAllByPrice_ValueEquals(25000);
+
+
+
+
+
+
 
     }
 }
