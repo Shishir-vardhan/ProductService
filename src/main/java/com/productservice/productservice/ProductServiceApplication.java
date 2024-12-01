@@ -236,7 +236,7 @@ public class ProductServiceApplication implements CommandLineRunner {
 //        List<Product> products = productRepository.findAllByTitle("Samsung S25 ultra");
 //        List<Product> products = productRepository.findAllByTitleAndDescription("Samsung S25 ultra","S25 ultra is the best android phone in the market with best specs");
 //        List<Product> products = productRepository.findAllByCategoryName("Samsung Devices");
-        List<Product> products = productRepository.findAllByPrice_ValueEquals(25000);
+//        List<Product> products = productRepository.findAllByPrice_ValueEquals(25000);
 
 
 

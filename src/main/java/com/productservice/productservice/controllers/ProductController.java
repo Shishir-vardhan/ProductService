@@ -19,18 +19,18 @@ public class ProductController {
 
     public ProductService productService;
 
-//    @Autowired
-//    //Constructor injection
-//    public ProductController(@Qualifier("fakeStoreProductServiceImpl") ProductService productService) {
-//        this.productService = productService;
-//    }
+    @Autowired
+    //Constructor injection
+    public ProductController(@Qualifier("fakeStoreProductServiceImpl") ProductService productService) {
+        this.productService = productService;
+    }
 
-//    @GetMapping("/{id}")
-//    public GenericProductDto getProductById(@PathVariable("id") Long id) throws Exception {
-//        //Below code used to direct it to service.To use it we need an object of the service and we can implement using dependency injection
-//        // Call the FakeStoreProductService getProductById() method.
-//        return productService.getProductById(id);
-//    }
+    @GetMapping("/{id}")
+    public GenericProductDto getProductById(@PathVariable("id") Long id) throws Exception {
+        //Below code used to direct it to service.To use it we need an object of the service and we can implement using dependency injection
+        // Call the FakeStoreProductService getProductById() method.
+        return productService.getProductById(id);
+    }
 
     /*
     Commenting above method getProductById because it's calling to fakestore api and interacting with it's database.
@@ -38,15 +38,15 @@ public class ProductController {
     1.To test and check the issues for db migration initialization and hibernate.ddl-auto= none functionality.
     2.Created SelfProductServiceImpl and making changes to controller so that it interact with our db.s
      */
-    @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
-    }
-
-    @GetMapping("/{id}")
-    public GenericProductDto getProductById(@PathVariable("id") Long id) throws Exception {
-        return productService.getProductById(id);
-    }
+//    @Autowired
+//    public ProductController(ProductService productService) {
+//        this.productService = productService;
+//    }
+//
+//    @GetMapping("/{id}")
+//    public GenericProductDto getProductById(@PathVariable("id") Long id) throws Exception {
+//        return productService.getProductById(id);
+//    }
 
     @GetMapping
     public List<GenericProductDto> getAllProducts() {
